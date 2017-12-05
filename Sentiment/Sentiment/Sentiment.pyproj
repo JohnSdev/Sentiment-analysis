@@ -23,6 +23,9 @@
   <ItemGroup>
     <Compile Include="imdbtrainer.py" />
     <Compile Include="main.py" />
+    <Compile Include="module1.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Sentiment.py" />
     <Compile Include="sentimentstore.py" />
     <Compile Include="tflearn.py" />

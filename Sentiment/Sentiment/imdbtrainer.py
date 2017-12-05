@@ -1,5 +1,8 @@
 import os
 import json
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
 
 
 class IMDBTrainer():
@@ -18,14 +21,41 @@ class IMDBTrainer():
                     self.scores.append(  1 )
                 # read the review..
                 data = open( os.path.join( path, X, file ), encoding="utf-8" ).read()
-                self.data.append( data )
+                data = data.replace("/>", "").replace("<br", "") #Clean up before processing
+                data = data.replace(",", "").replace("!", "") #Clean up before processing
+                data = data.replace(".", "").replace("?", "") #Clean up before processing
+                data = data.replace("'", "").replace('"', "") #Clean up before processing
+
+                cleaned_data= self.stopWords(data)
+                self.data.append( cleaned_data )
+            
                 self.size += 1
 
+    def stopWords(self, data):
+        ps = PorterStemmer()
+        input_data = data
+        stop_words = set(stopwords.words('english'))
+ 
+        #word_tokens = word_tokenize(input_data)
+ 
+        #filtered_sentence = [w for w in input_data if not w in stop_words]
+ 
+        filtered_sentence = ""
+        data2=data.split(" ")
+        for w in data2:     
+            if w not in stop_words:   
+                stem=ps.stem(w)
+                filtered_sentence += stem + " "
+        #print (filtered_sentence)
+        return filtered_sentence
+ 
 
     def train( self, sentiment ):
         # Spola fram till start
         for i in range(self.size):
-            sentiment.addStringScore( self.data[i], self.scores[i] )
+            #print (self.data[i])
+            sentiment.addStringScore( self.data[i] , self.scores[i] )
+            #sentiment.addStringScore( self.data[i] , self.scores[i] ))
 
     def test( self, sentiment ):
         sentiment_sum = 0
@@ -35,7 +65,7 @@ class IMDBTrainer():
         wrong=0
         for i in range(self.size):
             count += 1
-            s = sentiment.getStringSentiment( self.data[i] )
+            s = sentiment.getStringSentiment( self.data[i])
             if ( s < -0.01 ):
                 if self.scores[i] < 0:
                     correct += 1
