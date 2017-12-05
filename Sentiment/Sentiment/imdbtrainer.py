@@ -26,8 +26,8 @@ class IMDBTrainer():
                 data = data.replace(".", "").replace("?", "") #Clean up before processing
                 data = data.replace("'", "").replace('"', "") #Clean up before processing
 
-                cleaned_data= self.stopWords(data)
-                self.data.append( cleaned_data )
+                #cleaned_data= self.stopWords(data)
+                self.data.append( data )
             
                 self.size += 1
 
