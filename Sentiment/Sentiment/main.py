@@ -23,6 +23,7 @@ print("Total unique positive words in dataset: ", sentiment.getNumberOfPositiveW
 print("Total unique negative words in dataset: ", sentiment.getNumberOfNegativeWords() )
 print("")
 
+
 print("Testing:")
 movies_test=IMDBTrainer("aclImdb/test")
 t0 = time.time()

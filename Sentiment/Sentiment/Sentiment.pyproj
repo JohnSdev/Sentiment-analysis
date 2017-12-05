@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>0a27eadf-9fb5-4198-897c-49ad94af7d9e</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Sentiment.py</StartupFile>
+    <StartupFile>main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
