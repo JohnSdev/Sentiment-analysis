@@ -49,21 +49,35 @@ class SentimentStore:
 
     def addIncAndInv(self):
         addinc=0
+        adddec=0
         for w in self.sent_word_score:
             if w == ("very" or "too"):
-                self.sent_word_score[w] *2
-            if w == ("barely" or "little"):
-                self.sent_word_score[w] /2
+                addinc=1
+            elif addinc==1:
+                 print(w)
+                 self.sent_word_score[w+1] = self.sent_word_score[w+1] + 2
+                 addinc=0
+               
+               
+
+            elif w == ("barely" or "little"):
+                adddec=1
+            elif adddec ==1:
+                self.sent_word_score[w]= self.sent_word_score[w] -2
+                adddec =0
                 
 
     def addStringScore(self, string, score):
-        words = string.split(" ")
-        for word in words:
+        
+        
+        #words = string.split(" ")
+
+        for word in string:
             if len(word) > 3 or word == "bad" : # ignore short words
                 print
                 self.addWordScore(word, score)
                 self.wordcount += 1
-        self.addIncAndInv()
+        
 
     def getWordSentiment(self, word):
         # TODO: return sentiment score for a given word,
@@ -97,9 +111,9 @@ class SentimentStore:
     def getStringSentiment(self, s):
         score = 0
         count = 0
-        words = s.split(" ")
-        for word in words:
-            if len(word) > 3: # ignore short words
+        #words = s.split(" ")
+        for word in s:
+            if len(word) > 3 or word == "bad": # ignore short words
                 count += 1
                 word = word.lower()
                 score += self.getNormalizedWordSentiment(word)

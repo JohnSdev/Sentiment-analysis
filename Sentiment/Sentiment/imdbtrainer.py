@@ -3,6 +3,7 @@ import json
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
+import re
 
 
 class IMDBTrainer():
@@ -21,11 +22,14 @@ class IMDBTrainer():
                     self.scores.append(  1 )
                 # read the review..
                 data = open( os.path.join( path, X, file ), encoding="utf-8" ).read()
-                data = data.replace("/>", "").replace("<br", "") #Clean up before processing
-                data = data.replace(",", "").replace("!", "") #Clean up before processing
-                data = data.replace(".", "").replace("?", "") #Clean up before processing
-                data = data.replace("'", "").replace('"', "") #Clean up before processing
-
+                data=re.findall(r"[\w']+", data)
+                #data = data.replace("/>", "").replace("<br", "") #Clean up before processing
+                #data = data.replace(",", "").replace("!", "") #Clean up before processing
+                #data = data.replace(".", "").replace("?", "") #Clean up before processing
+                #data = data.replace("'", "").replace('"', "") #Clean up before processing
+                #data = data.replace("(", "").replace(')', "") #Clean up before processing
+                #data = data.replace("-", "").replace('_', "") #Clean up before processing
+                #data = data.replace("\\", "")
                 #cleaned_data= self.stopWords(data)
                 self.data.append( data )
             
@@ -55,7 +59,8 @@ class IMDBTrainer():
         for i in range(self.size):
             #print (self.data[i])
             sentiment.addStringScore( self.data[i] , self.scores[i] )
-            #sentiment.addStringScore( self.data[i] , self.scores[i] ))
+        
+        #######sentiment.addIncAndInv()
 
     def test( self, sentiment ):
         sentiment_sum = 0
@@ -66,12 +71,12 @@ class IMDBTrainer():
         for i in range(self.size):
             count += 1
             s = sentiment.getStringSentiment( self.data[i])
-            if ( s < -0.01 ):
+            if ( s < -0.001 ):
                 if self.scores[i] < 0:
                     correct += 1
                 else:
                     wrong += 1
-            elif ( s > 0.01 ):
+            elif ( s > 0.001 ):
                 if self.scores[i] > 0:
                     correct += 1
                 else:
