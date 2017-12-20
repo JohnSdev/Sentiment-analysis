@@ -22,14 +22,9 @@ class IMDBTrainer():
                     self.scores.append(  1 )
                 # read the review..
                 data = open( os.path.join( path, X, file ), encoding="utf-8" ).read()
+                #Clean up words with regex
                 data=re.findall(r"[\w']+", data)
-                #data = data.replace("/>", "").replace("<br", "") #Clean up before processing
-                #data = data.replace(",", "").replace("!", "") #Clean up before processing
-                #data = data.replace(".", "").replace("?", "") #Clean up before processing
-                #data = data.replace("'", "").replace('"', "") #Clean up before processing
-                #data = data.replace("(", "").replace(')', "") #Clean up before processing
-                #data = data.replace("-", "").replace('_', "") #Clean up before processing
-                #data = data.replace("\\", "")
+
                 #cleaned_data= self.stopWords(data)
                 self.data.append( data )
             
